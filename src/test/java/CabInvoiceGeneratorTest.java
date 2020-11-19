@@ -43,4 +43,28 @@ public class CabInvoiceGeneratorTest {
         expectedEnhancedInvoice1.setTotalFare(73.00);
         Assert.assertNotEquals(expectedEnhancedInvoice1, enhancedInvoice);
     }
+
+    @Test
+    public void ProvideMultipleRideOfUser_WhenCalculate_ShouldReturnInvoice(){
+        RideRepository rideRepository = new RideRepository();
+        Ride ride1 = new Ride(9, 20);
+        Ride ride2 = new Ride(9, 21);
+        Ride ride3 = new Ride(9, 21);
+        Ride ride4 = new Ride(9, 21);
+
+        CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
+        cabInvoiceGenerator.addRide("Pawan.Kumar", ride1, ride2);
+
+        cabInvoiceGenerator.addRide("Mohit.Raj", ride3, ride4);
+
+
+        EnhancedInvoice generatedInvoice = cabInvoiceGenerator.calculateTotalRideFare("Pawan.Kumar");
+      
+        EnhancedInvoice expectedInvoice = new EnhancedInvoice();
+        expectedInvoice.setTotalFare(221);
+        expectedInvoice.setTotalNumberOfRide(2);
+        expectedInvoice.setAverageFarePerRide(110.5);
+
+        Assert.assertEquals(expectedInvoice, generatedInvoice);
+    }
 }

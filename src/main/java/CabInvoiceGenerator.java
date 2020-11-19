@@ -3,6 +3,12 @@ public class CabInvoiceGenerator {
     public static final double COST_PER_TIME = 1;
     public static final double MINIMUM_COST_PER_KM = 10;
 
+    RideRepository rideRepository;
+
+    public CabInvoiceGenerator() {
+        this.rideRepository =new RideRepository();
+    }
+
     public static EnhancedInvoice calculateFare(Ride ...ride){
        EnhancedInvoice enhancedInvoice = new EnhancedInvoice();
         double fairOfRide;
@@ -20,5 +26,13 @@ public class CabInvoiceGenerator {
         }
         enhancedInvoice.setAverageFarePerRide(enhancedInvoice.getTotalFare()/ enhancedInvoice.getTotalNumberOfRide());
         return enhancedInvoice;
+    }
+
+    public void addRide(String id, Ride ...rides){
+        rideRepository.addRide(id, rides);
+    }
+
+    public EnhancedInvoice calculateTotalRideFare(String id){
+        return calculateFare(rideRepository.fetchRideDetailsWithId(id));
     }
 }

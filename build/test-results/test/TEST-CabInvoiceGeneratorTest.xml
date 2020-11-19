@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CabInvoiceGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-19T17:09:00" hostname="pawan" time="0.002">
+<testsuite name="CabInvoiceGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-19T17:51:29" hostname="pawan" time="0.029">
   <properties/>
-  <testcase name="ProvideRideDetail_WhenFairIsLessThen5_ShouldReturn5" classname="CabInvoiceGeneratorTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="ProvideMultipleRideOfUser_WhenCalculate_ShouldReturnInvoice" classname="CabInvoiceGeneratorTest" time="0.029"/>
+  <system-out><![CDATA[EnhancedInvoice{totalNumberOfRide=2.0, totalFare=221.0, averageFarePerRide=110.5}
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
