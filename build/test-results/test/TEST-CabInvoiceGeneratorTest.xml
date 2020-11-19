@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="CabInvoiceGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-19T15:31:35" hostname="pawan" time="0.001">
+<testsuite name="CabInvoiceGeneratorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-19T16:09:17" hostname="pawan" time="0.001">
   <properties/>
-  <testcase name="ProvideRideDetail_WhenFairIsLessThen5_ShouldReturn5" classname="CabInvoiceGeneratorTest" time="0.001"/>
+  <testcase name="ProvideRideDetail_WhenFairIsLessThen5_ShouldReturnActualFare" classname="CabInvoiceGeneratorTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
