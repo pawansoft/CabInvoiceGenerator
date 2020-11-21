@@ -19,31 +19,12 @@ public class CabInvoiceGenerator {
         double fairOfRide;
 
         for(Ride newRide : ride){
-            fairOfRide = newRide.getDistance() * MINIMUM_COST_PER_KM + newRide.getTime() * COST_PER_TIME;
+                fairOfRide = newRide.getDistance() * newRide.rideTypeFinder.getCOST_PER_KM() + newRide.getTime() * newRide.rideTypeFinder.getCOST_PER_TIME();
 
             enhancedInvoice.setTotalNumberOfRide(enhancedInvoice.getTotalNumberOfRide()+1);
 
-            if(fairOfRide <= MINIMUM_FARE){
-                enhancedInvoice.setTotalFare(enhancedInvoice.getTotalFare() + MINIMUM_FARE);
-            }else {
-                enhancedInvoice.setTotalFare(enhancedInvoice.getTotalFare()+fairOfRide);
-            }
-        }
-        enhancedInvoice.setAverageFarePerRide(enhancedInvoice.getTotalFare()/ enhancedInvoice.getTotalNumberOfRide());
-        return enhancedInvoice;
-    }
-
-    public static EnhancedInvoice calculateFareForPremium(Ride ...ride){
-        EnhancedInvoice enhancedInvoice = new EnhancedInvoice();
-        double fairOfRide;
-
-        for(Ride newRide : ride){
-            fairOfRide = newRide.getDistance() * PREMIUM_COST_PER_KM + newRide.getTime() * PREMIUM_COST_PER_TIME;
-
-            enhancedInvoice.setTotalNumberOfRide(enhancedInvoice.getTotalNumberOfRide()+1);
-
-            if(fairOfRide <= PREMIUM_MINIMUM_FARE){
-                enhancedInvoice.setTotalFare(enhancedInvoice.getTotalFare() + PREMIUM_MINIMUM_FARE);
+            if( fairOfRide <= newRide.rideTypeFinder.getMIN_FARE()){
+                enhancedInvoice.setTotalFare(enhancedInvoice.getTotalFare() + newRide.rideTypeFinder.getMIN_FARE());
             }else {
                 enhancedInvoice.setTotalFare(enhancedInvoice.getTotalFare()+fairOfRide);
             }
@@ -58,9 +39,5 @@ public class CabInvoiceGenerator {
 
     public EnhancedInvoice calculateTotalRideFare(String id){
         return calculateFare(rideRepository.fetchRideDetailsWithId(id));
-    }
-
-    public EnhancedInvoice calculateTotalRideFarePremium(String id){
-        return calculateFareForPremium(rideRepository.fetchRideDetailsWithId(id));
     }
 }

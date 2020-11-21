@@ -5,8 +5,8 @@ public class CabInvoiceGeneratorTest {
 
     @Test
     public void ProvideDistanceAndTime_WhenCalculate_ShouldReturnFair(){
-        Ride ride1 = new Ride(0.1, 2);
-        Ride ride2 = new Ride(5, 30);
+        Ride ride1 = new Ride(0.1, 2, RideTypeFinder.NormalRide);
+        Ride ride2 = new Ride(5, 30, RideTypeFinder.NormalRide);
         EnhancedInvoice enhancedInvoice = CabInvoiceGenerator.calculateFare(ride1, ride2);
 
         EnhancedInvoice expectedEnhancedInvoice1 = new EnhancedInvoice();
@@ -19,8 +19,8 @@ public class CabInvoiceGeneratorTest {
 
     @Test
     public void ProvideRideDetail_WhenFairIsLessThen5_ShouldReturn5(){
-        Ride ride1 = new Ride(1,5);
-        Ride ride2 = new Ride(5, 20);
+        Ride ride1 = new Ride(1,5, RideTypeFinder.NormalRide);
+        Ride ride2 = new Ride(5, 20, RideTypeFinder.NormalRide);
         EnhancedInvoice enhancedInvoice = CabInvoiceGenerator.calculateFare(ride1, ride2);
 
         EnhancedInvoice expectedEnhancedInvoice1 = new EnhancedInvoice();
@@ -33,8 +33,8 @@ public class CabInvoiceGeneratorTest {
 
     @Test
     public void ProvideRideDetail_WhenFairIsLessThen5_ShouldReturnActualFare(){
-        Ride ride1 = new Ride(0.1,2);
-        Ride ride2 = new Ride(5, 20);
+        Ride ride1 = new Ride(0.1,2, RideTypeFinder.NormalRide);
+        Ride ride2 = new Ride(5, 20, RideTypeFinder.NormalRide);
         EnhancedInvoice enhancedInvoice = CabInvoiceGenerator.calculateFare(ride1, ride2);
 
         EnhancedInvoice expectedEnhancedInvoice1 = new EnhancedInvoice();
@@ -47,10 +47,10 @@ public class CabInvoiceGeneratorTest {
     @Test
     public void ProvideMultipleRideOfUser_WhenCalculate_ShouldReturnInvoice(){
         RideRepository rideRepository = new RideRepository();
-        Ride ride1 = new Ride(9, 20);
-        Ride ride2 = new Ride(9, 21);
-        Ride ride3 = new Ride(9, 21);
-        Ride ride4 = new Ride(9, 21);
+        Ride ride1 = new Ride(9, 20, RideTypeFinder.NormalRide);
+        Ride ride2 = new Ride(9, 21, RideTypeFinder.NormalRide);
+        Ride ride3 = new Ride(9, 21, RideTypeFinder.NormalRide);
+        Ride ride4 = new Ride(9, 21, RideTypeFinder.NormalRide);
 
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
         cabInvoiceGenerator.addRide("Pawan.Kumar", ride1, ride2);
@@ -59,7 +59,7 @@ public class CabInvoiceGeneratorTest {
 
 
         EnhancedInvoice generatedInvoice = cabInvoiceGenerator.calculateTotalRideFare("Pawan.Kumar");
-      
+
         EnhancedInvoice expectedInvoice = new EnhancedInvoice();
         expectedInvoice.setTotalFare(221);
         expectedInvoice.setTotalNumberOfRide(2);
@@ -71,18 +71,24 @@ public class CabInvoiceGeneratorTest {
     @Test
     public void ProvideMultipleRideOfUser_WhenCalculateForPremium_ShouldReturnInvoice(){
         RideRepository rideRepository = new RideRepository();
-        Ride ride1 = new Ride(9, 20);
-        Ride ride2 = new Ride(9, 21);
-        Ride ride3 = new Ride(9, 21);
-        Ride ride4 = new Ride(9, 21);
+        Ride ride1 = new Ride(9, 20, RideTypeFinder.Premium);
+        Ride ride2 = new Ride(9, 21, RideTypeFinder.Premium);
+        Ride ride3 = new Ride(9, 21, RideTypeFinder.NormalRide);
+        Ride ride4 = new Ride(9, 21, RideTypeFinder.Premium);
 
         CabInvoiceGenerator cabInvoiceGenerator = new CabInvoiceGenerator();
         cabInvoiceGenerator.addRide("Pawan.Kumar", ride1, ride2);
 
         cabInvoiceGenerator.addRide("Mohit.Raj", ride3, ride4);
 
+        EnhancedInvoice generateMohitRide = cabInvoiceGenerator.calculateTotalRideFare("Mohit.Raj");
 
-        EnhancedInvoice generatedInvoice = cabInvoiceGenerator.calculateTotalRideFarePremium("Pawan.Kumar");
+        EnhancedInvoice expectedOutcome = new EnhancedInvoice();
+        expectedOutcome.setAverageFarePerRide(144.0);
+        expectedOutcome.setTotalNumberOfRide(2.0);
+        expectedOutcome.setTotalFare(288.0);
+
+        EnhancedInvoice generatedInvoice = cabInvoiceGenerator.calculateTotalRideFare("Pawan.Kumar");
 
         EnhancedInvoice expectedInvoice = new EnhancedInvoice();
         expectedInvoice.setTotalFare(352);
@@ -90,5 +96,7 @@ public class CabInvoiceGeneratorTest {
         expectedInvoice.setAverageFarePerRide(176);
 
         Assert.assertEquals(expectedInvoice, generatedInvoice);
+
+        Assert.assertEquals(expectedOutcome, generateMohitRide);
     }
 }

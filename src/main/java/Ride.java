@@ -1,10 +1,13 @@
 public class Ride {
+
     private double distance;
     private double time;
+    RideTypeFinder rideTypeFinder;
 
-    public Ride(double distance, double time) {
+    Ride(double distance, double time, RideTypeFinder rideTypeFinder) {
         this.distance = distance;
         this.time = time;
+        this.rideTypeFinder = rideTypeFinder;
     }
 
     public double getDistance() {
